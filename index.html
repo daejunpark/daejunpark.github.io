@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daejun Park</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
       :root {
         --primary-color: #2d3436;
@@ -61,6 +62,17 @@
       .collapsible-content.expanded {
         display: block;
       }
+
+      /* Add styles for social icons */
+      .social-links a {
+        border-bottom: none;
+        margin: 0 0.5rem;
+        font-size: 1.2rem;
+      }
+
+      .social-links a:first-child {
+        margin-left: 0;
+      }
     </style>
   </head>
   <body>
@@ -69,10 +81,10 @@
       <div>
         daejunpark (at) gmail (dot) com
       </div>
-      <div>
-        [<a href="https://www.linkedin.com/in/daejunpark/">LinkedIn</a>]
-        [<a href="https://twitter.com/daejunpark">Twitter</a>]
-        [<a href="https://github.com/daejunpark">Github</a>]
+      <div class="social-links">
+        <a href="https://www.linkedin.com/in/daejunpark/" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="https://twitter.com/daejunpark" title="Twitter"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://github.com/daejunpark" title="Github"><i class="fab fa-github"></i></a>
       </div>
       <div>
         [<a href="https://dblp.uni-trier.de/pers/hd/p/Park_0001:Daejun">DBLP</a>]
