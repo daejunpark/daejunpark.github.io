@@ -4,82 +4,145 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daejun Park</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
     <style>
       :root {
-        --primary-color: #2d3436;
-        --secondary-color: #636e72;
-        --background-color: #f5f6fa;
-        --spacing: 2rem;
+        --primary-color: #1a1a1a;
+        --secondary-color: #555;
+        --muted-color: #8c8c8c;
+        --border-color: #ededed;
+        --background-color: #ffffff;
       }
 
       body {
-        font-family: system-ui, -apple-system, sans-serif;
-        line-height: 1.6;
-        max-width: 650px;
+        font-family: 'Source Serif 4', Charter, 'Iowan Old Style', Georgia, serif;
+        line-height: 1.7;
+        max-width: 680px;
         margin: 0 auto;
-        padding: var(--spacing);
+        padding: clamp(1.25rem, 4vw, 2.5rem);
         background: var(--background-color);
+        color: var(--primary-color);
+        font-size: 18px;
+      }
+
+      h1, h2, h3 {
         color: var(--primary-color);
       }
 
-      h1, h2 {
-        color: var(--primary-color);
+      h1 {
+        font-size: 2.1rem;
+        font-weight: 600;
+        margin: 0 0 0.5rem 0;
+        letter-spacing: -0.01em;
+      }
+
+      h3 {
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        color: var(--muted-color);
+        margin-top: 3rem;
+        margin-bottom: 1rem;
       }
 
       a {
-        color: var(--secondary-color);
+        color: var(--primary-color);
         text-decoration: none;
-        border-bottom: 1px solid currentColor;
+        border-bottom: 1px solid #b8b8b8;
+        transition: border-color 0.15s ease;
       }
 
-      .container {
-        /*
-        background: white;
-        padding: var(--spacing);
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        */
+      a:hover {
+        border-bottom-color: var(--primary-color);
       }
 
-      .collapsible {
-        cursor: pointer;
-        user-select: none;
-      }
-
-      .collapsible:after {
-        content: ' ▼';
-        font-size: 0.8em;
-        color: var(--secondary-color);
-      }
-
-      .collapsible.collapsed:after {
-        content: ' ▶';
-      }
-
-      .collapsible-content {
-        display: none;
-      }
-
-      .collapsible-content.expanded {
-        display: block;
-      }
-
-      /* Add styles for social icons */
       .social-links a {
         border-bottom: none;
-        margin: 0 0.3rem;
-        font-size: 1.2rem;
+        margin: 0 0.35rem;
+        display: inline-flex;
+        align-items: center;
+        color: var(--secondary-color);
       }
 
       .social-links a:first-child {
         margin-left: 0;
       }
 
-      /* Add styles for code elements */
-      code {
-        font-size: 1rem;  /* Match the body text size */
-        font-family: system-ui, -apple-system, monospace;  /* Keep monospace but use system fonts */
+      .social-links a:hover {
+        color: var(--primary-color);
+      }
+
+      .social-links svg {
+        height: 1.1rem;
+        width: auto;
+        fill: currentColor;
+      }
+
+      .social-links svg.icon-cap {
+        height: 1.2rem;
+      }
+
+      .intro {
+        margin-top: 1.6rem;
+        font-size: 1.05rem;
+      }
+
+      .item-list {
+        list-style: none;
+        padding: 0;
+      }
+
+      .item-list li {
+        border-top: 1px solid var(--border-color);
+        padding: 1rem 0;
+      }
+
+      .item-list li:first-child {
+        border-top: none;
+      }
+
+      .item-title {
+        font-weight: 600;
+      }
+
+      a.item-title {
+        border-bottom: none;
+        transition: color 0.15s ease;
+      }
+
+      a.item-title:hover {
+        color: var(--secondary-color);
+      }
+
+      .item-meta {
+        color: var(--muted-color);
+        font-style: italic;
+        font-size: 0.85em;
+        margin-left: 0.45em;
+      }
+
+      .item-desc {
+        margin: 0.35rem 0 0;
+        color: var(--secondary-color);
+      }
+
+      .chip {
+        display: inline;
+        font-size: 0.88em;
+        font-style: italic;
+        margin: 0 0.1em 0 0.45em;
+        background: none;
+        color: var(--secondary-color);
+        border-bottom: 1px solid #d4d4d4;
+        padding: 0;
+      }
+
+      .chip:hover {
+        color: var(--primary-color);
+        border-bottom-color: currentColor;
       }
     </style>
   </head>
@@ -87,265 +150,151 @@
     <div class="container">
       <h1>Daejun Park</h1>
       <div class="social-links">
-        <a href="https://www.linkedin.com/in/daejunpark/" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-        <a href="https://twitter.com/daejunpark" title="Twitter"><i class="fab fa-x-twitter"></i></a>
-        <a href="https://github.com/daejunpark" title="Github"><i class="fab fa-github"></i></a>
-        <a href="https://dblp.uni-trier.de/pers/hd/p/Park_0001:Daejun" title="DBLP"><i class="fas fa-book"></i></a>
-        <a href="https://scholar.google.com/citations?user=Zp4qcg0AAAAJ&hl=en" title="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
+        <a href="https://www.linkedin.com/in/daejunpark/" title="LinkedIn" aria-label="LinkedIn">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="https://twitter.com/daejunpark" title="X" aria-label="X (Twitter)">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="https://github.com/daejunpark" title="GitHub" aria-label="GitHub">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.4 3-.405 1.02.005 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        </a>
+        <a href="https://dblp.uni-trier.de/pers/hd/p/Park_0001:Daejun" title="DBLP" aria-label="DBLP">
+          <svg aria-hidden="true" viewBox="0 0 448 512"><path d="M96 0C43 0 0 43 0 96L0 416c0 53 43 96 96 96l288 0 32 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l0-64c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L384 0 96 0zm0 384l256 0 0 64L96 448c-17.7 0-32-14.3-32-32s14.3-32 32-32zm32-240c0-8.8 7.2-16 16-16l192 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-192 0c-8.8 0-16-7.2-16-16zm16 48l192 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-192 0c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/></svg>
+        </a>
+        <a href="https://scholar.google.com/citations?user=Zp4qcg0AAAAJ&amp;hl=en" title="Google Scholar" aria-label="Google Scholar">
+          <svg aria-hidden="true" class="icon-cap" viewBox="0 0 640 512"><path d="M320 32c-8.1 0-16.1 1.4-23.7 4.1L15.8 137.4C6.3 140.9 0 149.9 0 160s6.3 19.1 15.8 22.6l57.9 20.9C57.3 229.3 48 259.8 48 291.9l0 28.1c0 28.4-10.8 57.7-22.3 80.8c-6.5 13-13.9 25.8-22.5 37.6C0 442.7-.9 448.3 .9 453.4s6 8.9 11.2 10.2l64 16c4.2 1.1 8.7 .3 12.4-2s6.3-6.1 7.1-10.4c8.6-42.8 4.3-81.2-2.1-108.7C90.3 344.3 86 329.8 80 316.5l0-24.6c0-30.2 10.2-58.7 27.9-81.5c12.9-15.5 29.6-28 49.2-35.7l157-61.7c8.2-3.2 17.5 .8 20.7 9s-.8 17.5-9 20.7l-157 61.7c-12.4 4.9-23.3 12.4-32.2 21.6l159.6 57.6c7.6 2.7 15.6 4.1 23.7 4.1s16.1-1.4 23.7-4.1L624.2 182.6c9.5-3.4 15.8-12.5 15.8-22.6s-6.3-19.1-15.8-22.6L343.7 36.1C336.1 33.4 328.1 32 320 32zM128 408c0 35.3 86 72 192 72s192-36.7 192-72L496.7 262.6 354.5 314c-11.1 4-22.8 6-34.5 6s-23.5-2-34.5-6L143.3 262.6 128 408z"/></svg>
+        </a>
       </div>
-      <h3>Software</h3>
-      <ul>
-        <li>
-          <code>halmos</code>
-          [<a href="https://github.com/a16z/halmos">code</a>]
-        </li>
-        <li>
-          <code>erc4626-tests</code>
-          [<a href="https://github.com/a16z/erc4626-tests">code</a>]
-        </li>
-      </ul>
+
+      <p class="intro">
+        My work has focused on applying formal verification to provable
+        security, especially for distributed protocols and financial
+        applications. Much of this work has been in high-stakes systems where
+        correctness failures can become security failures. I also created
+        <a href="https://github.com/a16z/halmos">Halmos</a>, an open-source
+        formal verification tool for smart-contract software. Recently, I have
+        been <a href="https://daejunpark.github.io/lean-defi-guide/">exploring</a>
+        AI-assisted formal verification in Lean.
+      </p>
+
       <h3>Writings</h3>
-      <ul>
+      <ul class="item-list">
         <li>
-          <b>Formal verification of Pectra system contracts with Halmos</b>
-          [<a href="https://a16zcrypto.com/posts/article/formal-verification-of-pectra-system-contracts-with-halmos/">post</a>]
-          (2025)
-        </li>
-        <!-- <li>
-          <b>Using halmos for equivalence checking</b>
-          [<a href="https://x.com/daejunpark/status/1744788041078829432">thread</a>]
-          (2024)
-        </li> -->
-        <li>
-          <b>Symbolic testing with Halmos: Leveraging existing tests for formal verification</b>
-          [<a href="https://a16zcrypto.com/posts/article/symbolic-testing-with-halmos-leveraging-existing-tests-for-formal-verification/">post</a>]
-          (2023)
+          <div>
+            <a class="item-title" href="https://daejunpark.github.io/lean-defi-guide/">DeFi Formal Verification in Lean</a>
+            <a class="chip" href="https://github.com/daejunpark/lean-defi-guide">code</a>
+            <span class="item-meta">2026</span>
+          </div>
+          <p class="item-desc">An exploratory guide to AI-assisted Lean proofs for financial protocols.</p>
         </li>
         <li>
-          <b>Generalized property tests for ERC4626 vaults</b>
-          [<a href="https://a16zcrypto.com/generalized-property-tests-for-erc4626-vaults/">post</a>]
-          (2022)
-        </li>
-        <!-- <li>
-          <b>How Formal Verification Could Help to Prevent Gridlock Bug</b>
-          [<a href="https://runtimeverification.com/blog/how-formal-verification-could-help-to-prevent-gridlock-bug/">post</a>]
-          (2019)
-        </li> -->
-        <li>
-          <b>Formal Verification of ERC20 Contracts</b>
-          [<a href="https://runtimeverification.com/blog/erc-20-verification/">post</a>]
-          (2018)
+          <div>
+            <a class="item-title" href="https://a16zcrypto.com/posts/article/ai-agents-defi-exploits">Can AI agents actually pull off DeFi exploits?</a>
+            <span class="item-meta">2026</span>
+          </div>
+          <p class="item-desc">Benchmarking AI agents on real-world price-manipulation exploit generation.</p>
         </li>
         <li>
-          <b>How Formal Verification of Smart Contracts Works</b>
-          [<a href="https://runtimeverification.com/blog/how-formal-verification-of-smart-contracts-works">post</a>]
-          (2018)
-        </li>
-      </ul>
-      <h3>Work</h3>
-      <ul>
-        <li>
-          <b>Formal Verification of Beacon Chain Specification</b>
-          [<a href="https://github.com/runtimeverification/beacon-chain-verification/blob/master/README.md">artifact</a>]
-          (2020)
+          <div>
+            <a class="item-title" href="https://a16zcrypto.com/posts/article/runtime-enforcement-defense-numerical-exploits">Runtime enforcement: A new line of defense against subtle numerical exploits</a>
+            <span class="item-meta">2025</span>
+          </div>
+          <p class="item-desc">A security perspective on numerical precision and rounding errors in financial systems.</p>
         </li>
         <li>
-          <b>Formal Verification of Beacon Chain Deposit Contract</b>
-          [<a href="https://github.com/runtimeverification/deposit-contract-verification/blob/master/README.md">artifact</a>]
-          (2020)
+          <div>
+            <a class="item-title" href="https://a16zcrypto.com/posts/article/formal-verification-of-pectra-system-contracts-with-halmos/">Formal verification of Pectra system contracts with Halmos</a>
+            <a class="chip" href="https://github.com/daejunpark/sys-asm-halmos">code</a>
+            <span class="item-meta">2025</span>
+          </div>
+          <p class="item-desc">Formal verification for Ethereum system contracts written in assembly.</p>
         </li>
         <li>
-          <b>Formal Verification of Gnosis Safe V1</b>
-          [<a href="https://github.com/runtimeverification/publications/blob/main/reports/smart-contracts/GnosisSafe.pdf">report</a>]
-          <!--
-          [<a href="https://github.com/runtimeverification/verified-smart-contracts/tree/master/gnosis">artifact</a>]
-          -->
-          (2019)
+          <div>
+            <a class="item-title" href="https://a16zcrypto.com/posts/article/symbolic-testing-with-halmos-leveraging-existing-tests-for-formal-verification/">Symbolic testing with Halmos: Leveraging existing tests for formal verification</a>
+            <a class="chip" href="https://github.com/a16z/halmos">code</a>
+            <span class="item-meta">2023</span>
+          </div>
+          <p class="item-desc">Introducing symbolic testing as a bridge from property tests to formal verification.</p>
         </li>
         <li>
-          <b>Formal Verification of Uniswap V1</b>
-          [<a href="https://github.com/runtimeverification/verified-smart-contracts/blob/master/uniswap/README.md">artifact</a>]
-          (2018)
-        </li>
-        <li>
-          <b>Formal Verification of Ethereum Casper FFG</b>
-          [<a href="https://github.com/runtimeverification/verified-smart-contracts/blob/master/casper/README.md">artifact</a>]
-          (2018)
+          <div>
+            <a class="item-title" href="https://a16zcrypto.com/posts/article/generalized-property-tests-for-erc4626-vaults">Generalized property tests for ERC4626 vaults</a>
+            <a class="chip" href="https://github.com/a16z/erc4626-tests">code</a>
+            <span class="item-meta">2022</span>
+          </div>
+          <p class="item-desc">Executable security properties for tokenized vaults, a standard interface for yield-bearing financial applications.</p>
         </li>
       </ul>
-      <h3 class="collapsible collapsed" onclick="toggleSection(this)">Papers (2015-2021)</h3>
-      <div class="collapsible-content">
-        <ul>
-          <li>
-            <b>Language-Parametric Compiler Validation with Application to LLVM</b>.
-            <br/>
-            Theodoros Kasampalis, Daejun Park, Zhengyao Lin, Vikram Adve, and Grigore Rosu.
-            <br/>
-            <a href="https://asplos-conference.org/asplos2021/">ASPLOS</a> 2021.
-            <!--
-            [acceptance rate: 18.8% (75/398)]
-            -->
-            <br/>
-            [<a href="papers/asplos21.pdf">paper</a>]
-            <!--
-            [<a href="papers/cut-bisimulation.pdf">paper</a>]
-            -->
-          </li>
-          <li>
-            <b>End-to-End Formal Verification of Ethereum 2.0 Deposit Smart Contract</b>.
-            <br/>
-            Daejun Park, Yi Zhang, and Grigore Rosu.
-            <br/>
-            <a href="http://i-cav.org/2020/">CAV</a> (Industrial) 2020.
-            <!--
-            Proceedings of the 32nd International Conference on Computer-Aided Verification (CAV), 2020.
-            -->
-            <!--
-            [acceptance rate: 27.4% (66/241)]
-            -->
-            <br/>
-            [<a href="papers/deposit.pdf">paper</a>]
-            [<a href="slides/deposit-slides.pdf">slides</a>]
-            <!--
-            [<a href="https://youtu.be/TD0iudO3r7k">talk</a>]
-            -->
-            [<a href="https://github.com/runtimeverification/deposit-contract-verification">code</a>]
-          </li>
-          <li>
-            <b>A Complete Formal Semantics of x86-64 User-Level Instruction Set Architecture</b>.
-            <br/>
-            Sandeep Dasgupta, Daejun Park, Theodoros Kasampalis, Vikram Adve, and Grigore Rosu.
-            <br/>
-            <a href="https://pldi19.sigplan.org/">PLDI</a> 2019.
-            <!--
-            Proceedings of the 40th ACM SIGPLAN Conference on Programming Language Design and Implementation (PLDI), 2019.
-            -->
-            <!--
-            [acceptance rate: 27.7% (76/274)]
-            -->
-            <br/>
-            [<a href="papers/x86.pdf">paper</a>]
-          </li>
-          <li>
-            <b>A Formal Verification Tool for Ethereum VM Bytecode</b>.
-            <br/>
-            Daejun Park, Yi Zhang, Manasvi Saxena, Philip Daian, and Grigore Rosu.
-            <br/>
-            <a href="https://2018.fseconference.org/">ESEC/FSE</a> (Tool) 2018.
-            <!--
-            Proceedings of the 26th ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering (ESEC/FSE), 2018.
-            -->
-            <!--
-            [acceptance rate: 38.9% (14/36)]
-            -->
-            <br/>
-            [<a href="papers/kevm-verifier.pdf">paper</a>]
-            [<a href="slides/kevm-verifier-slides.pdf">slides</a>]
-            [<a href="https://github.com/runtimeverification/verified-smart-contracts">code</a>]
-            <!--
-            [blog <a href="https://runtimeverification.com/blog/how-formal-verification-of-smart-contracts-works/">post 1</a> &
-                  <a href="https://runtimeverification.com/blog/erc-20-verification/">post 2</a>]
-            -->
-          </li>
-          <li>
-            <b>KEVM: A Complete Formal Semantics of the Ethereum Virtual Machine</b>.
-            <br/>
-            Everett Hildenbrandt, Manasvi Saxena, Nishant Rodrigues, Xiaoran Zhu, Philip Daian, Dwight Guth, Brandon Moore, Daejun Park, Yi Zhang, Andrei Stefanescu, and Grigore Rosu.
-            <br/>
-            <a href="http://www.cs.ox.ac.uk/conferences/csf2018/">CSF</a> 2018.
-            <!--
-            Proceedings of the 2018 IEEE Computer Security Foundations Symposium (CSF), 2018.
-            -->
-            <!--
-            [acceptance rate: 34.7% (25/72)]
-            -->
-            <br/>
-            [<a href="papers/kevm.pdf">paper</a>]
-          </li>
-          <li>
-            <b>Invariant Synthesis for Incomplete Verification Engines</b>.
-            <br/>
-            Daniel Neider, Pranav Garg, P. Madhusudan, Shambwaditya Saha, and Daejun Park.
-            <br/>
-            <a href="https://etaps.org/2018">TACAS</a> 2018.
-            (Invited to <a href="https://link.springer.com/journal/10817/volumes-and-issues/64-7">JAR</a> 2020.)
-            <!--
-            Proceedings of the 24th International Conference on Tools and Algorithms for the Construction and Analysis of Systems (TACAS), 2018.
-            -->
-            <!--
-            [acceptance rate: 29.2% (45/154)]
-            -->
-            <br/>
-            <!--
-            [<a href="https://arxiv.org/pdf/1712.05581.pdf">paper</a>]
-            -->
-            [<a href="https://doi.org/10.1007/978-3-319-89960-2_13">paper (TACAS)</a>]
-            [<a href="https://doi.org/10.1007/s10817-020-09570-z">paper (JAR)</a>]
-            [<a href="https://github.com/daejunpark/npi">code</a>]
-          </li>
-          <li>
-            <b>Semantics-Based Program Verifiers for All Languages</b>.
-            <br/>
-            Andrei Stefanescu, Daejun Park, Shijiao Yuwen, Yilong Li, and Grigore Rosu.
-            <br/>
-            <a href="https://2016.splashcon.org/">OOPSLA</a> 2016.
-            <!--
-            Proceedings of the 2016 ACM SIGPLAN International Conference on Object-Oriented Programming, Systems, Languages, and Applications (OOPSLA), 2016.
-            -->
-            <!--
-            [acceptance rate: 25.6% (52/203)]
-            -->
-            <b><em>Distinguished Paper Award</em></b>.
-            <!--
-            &nbsp;
-            &nbsp;
-            <em><font color="red">Selected in Computing Reviews' Notable Books and Articles 2016.</font></em>
-            [<a href="2016NotableItems.pdf">list</a>]
-            [<a href="http://www.computingreviews.com/recommend/bestof/2016NotableItems.pdf">link</a>]
-            [<a href="http://www.computingreviews.com/recommend/bestof/notableitems.cfm?bestYear=2016">link</a>]
-            -->
-            <br/>
-            [<a href="papers/oopsla16-preprint.pdf">paper</a>]
-            [<a href="slides/oopsla16-slides.pdf">slides</a>]
-            <!--
-            [<a href="https://youtu.be/kyjOxNhruAI">talk</a>]
-            -->
-          </li>
-          <li>
-            <b>KJS: A Complete Formal Semantics of JavaScript</b>.
-            <br/>
-            Daejun Park, Andrei Stefanescu, and Grigore Rosu.
-            <br/>
-            <a href="https://pldi15.sigplan.org/">PLDI</a> 2015.
-            <!--
-            Proceedings of the 36th ACM SIGPLAN Conference on Programming Language Design and Implementation (PLDI), 2015.
-            -->
-            <!--
-            [acceptance rate: 19.1% (58/303)]
-            -->
-            <br/>
-            [<a href="papers/p346-park.pdf">paper</a>]
-            <!--
-            [<a href="http://dl.acm.org/authorize?N07023">pdf</a> (via ACM Author-Izer)]
-            -->
-            [<a href="slides/2015-06-16-park-stefanescu-rosu-PLDI.pdf">slides</a>]
-            [<a href="https://github.com/kframework/javascript-semantics">code</a>]
-          </li>
-        </ul>
-      </div>
+
+      <h3>Earlier Academic Work</h3>
+      <ul class="item-list">
+        <li>
+          <div>
+            <a class="item-title" href="papers/asplos21.pdf">Language-Parametric Compiler Validation with Application to LLVM</a>
+            <span class="item-meta">ASPLOS 2021</span>
+          </div>
+          <p class="item-desc">Introduced Keq, a language-parametric equivalence checker, and used it to validate LLVM instruction selection from LLVM IR to x86-64 MachineIR.</p>
+        </li>
+        <li>
+          <div>
+            <a class="item-title" href="papers/deposit.pdf">End-to-End Formal Verification of Ethereum 2.0 Deposit Smart Contract</a>
+            <a class="chip" href="slides/deposit-slides.pdf">slides</a>
+            <a class="chip" href="https://github.com/runtimeverification/deposit-contract-verification">code</a>
+            <span class="item-meta">CAV Industrial 2020</span>
+          </div>
+          <p class="item-desc">Verified Ethereum's deposit contract down to compiled bytecode, proving the incremental Merkle tree algorithm and finding critical bugs at both the source-code and compiler-output levels.</p>
+        </li>
+        <li>
+          <div>
+            <a class="item-title" href="papers/x86.pdf">A Complete Formal Semantics of x86-64 User-Level Instruction Set Architecture</a>
+            <span class="item-meta">PLDI 2019</span>
+          </div>
+          <p class="item-desc">Built and extensively tested a formal semantics of the user-level x86-64 instruction set, revealing bugs in manuals and existing semantics and enabling binary-level analysis.</p>
+        </li>
+        <li>
+          <div>
+            <a class="item-title" href="papers/kevm-verifier.pdf">A Formal Verification Tool for Ethereum VM Bytecode</a>
+            <a class="chip" href="slides/kevm-verifier-slides.pdf">slides</a>
+            <a class="chip" href="https://github.com/runtimeverification/verified-smart-contracts">code</a>
+            <span class="item-meta">ESEC/FSE Tool 2018</span>
+          </div>
+          <p class="item-desc">Built a deductive verifier for EVM bytecode, with case studies on high-profile smart contracts.</p>
+        </li>
+        <li>
+          <div>
+            <a class="item-title" href="papers/kevm.pdf">KEVM: A Complete Formal Semantics of the Ethereum Virtual Machine</a>
+            <span class="item-meta">CSF 2018</span>
+          </div>
+          <p class="item-desc">Defined an executable EVM specification that passes the official test suite and generates interpreters, debuggers, and verifiers from one semantics.</p>
+        </li>
+        <li>
+          <div>
+            <a class="item-title" href="https://doi.org/10.1007/978-3-319-89960-2_13">Invariant Synthesis for Incomplete Verification Engines</a>
+            <a class="chip" href="https://github.com/daejunpark/npi">code</a>
+            <span class="item-meta">TACAS 2018</span>
+          </div>
+          <p class="item-desc">Used non-provability information from incomplete verifiers to guide CEGIS-style invariant synthesis for quantified and heap-manipulating programs.</p>
+        </li>
+        <li>
+          <div>
+            <a class="item-title" href="papers/oopsla16-preprint.pdf">Semantics-Based Program Verifiers for All Languages</a>
+            <a class="chip" href="slides/oopsla16-slides.pdf">slides</a>
+            <span class="item-meta">OOPSLA 2016, <em>Distinguished Paper</em></span>
+          </div>
+          <p class="item-desc">Generated correct-by-construction verifiers from operational semantics of C, Java, and JavaScript, checking functional correctness of data-structure programs.</p>
+        </li>
+        <li>
+          <div>
+            <a class="item-title" href="papers/p346-park.pdf">KJS: A Complete Formal Semantics of JavaScript</a>
+            <a class="chip" href="slides/2015-06-16-park-stefanescu-rosu-PLDI.pdf">slides</a>
+            <a class="chip" href="https://github.com/kframework/javascript-semantics">code</a>
+            <span class="item-meta">PLDI 2015</span>
+          </div>
+          <p class="item-desc">Built an executable ECMAScript 5.1 semantics that passed all core conformance tests, exposed test-suite gaps, and found bugs in major JavaScript engines.</p>
+        </li>
+      </ul>
     </div>
   </body>
-  <div style="margin-top:40px;">
-    <!-- https://www.revolvermaps.com/?target=setup2d -->
-    <!-- https://www.revolvermaps.com/?target=enlarge&i=2zxaddc9nr5 -->
-    <a href="https://www.revolvermaps.com/?target=enlarge&amp;i=2zxaddc9nr5">
-      <img src="//rc.revolvermaps.com/h/m/a/0/ff0000/128/0/2zxaddc9nr5.png" width="192" height="96" alt="Map" style="border:0;display:none;">
-    </a>
-  </div>
-  <script>
-    function toggleSection(element) {
-      element.classList.toggle('collapsed');
-      element.nextElementSibling.classList.toggle('expanded');
-    }
-  </script>
 </html>
