@@ -67,32 +67,28 @@
         color: var(--secondary-color);
       }
 
-      .social-links a:first-child {
-        margin-left: 0;
-      }
-
-      .social-links a:hover {
-        color: var(--primary-color);
-      }
-
-      .social-links svg {
-        height: 1.1rem;
-        width: auto;
-        fill: currentColor;
-      }
-
-      .social-links svg.icon-cap {
-        height: 1.2rem;
-      }
+      .social-links a:first-child { margin-left: 0; }
+      .social-links a:hover { color: var(--primary-color); }
+      .social-links svg { height: 1.1rem; width: auto; fill: currentColor; }
+      .social-links svg.icon-cap { height: 1.2rem; }
 
       .intro {
         margin-top: 1.6rem;
         font-size: 1.05rem;
       }
 
+      .group {
+        position: relative;
+      }
+
+      .group + .group {
+        margin-top: 2rem;
+      }
+
       .item-list {
         list-style: none;
         padding: 0;
+        margin: 0;
       }
 
       .item-list li {
@@ -100,22 +96,21 @@
         padding: 1rem 0;
       }
 
-      .item-list li:first-child {
+      .group .item-list li:first-child {
+        border-top: 1px solid var(--border-color);
+      }
+
+      h3 + .group .item-list li:first-child {
         border-top: none;
       }
 
-      .item-title {
-        font-weight: 600;
-      }
+      .item-title { font-weight: 600; }
 
       a.item-title {
         border-bottom: none;
         transition: color 0.15s ease;
       }
-
-      a.item-title:hover {
-        color: var(--secondary-color);
-      }
+      a.item-title:hover { color: var(--secondary-color); }
 
       .item-meta {
         color: var(--muted-color);
@@ -139,10 +134,40 @@
         border-bottom: 1px solid #d4d4d4;
         padding: 0;
       }
-
       .chip:hover {
         color: var(--primary-color);
         border-bottom-color: currentColor;
+      }
+
+      /* Default (narrow viewport) fallback: label sits inline above the group */
+      .group-label {
+        font-size: 0.95rem;
+        font-style: italic;
+        color: var(--muted-color);
+        margin: 1.75rem 0 0.4rem;
+        line-height: 1.4;
+      }
+      h3 + .group .group-label {
+        margin-top: 1rem;
+      }
+      .group-label br { display: none; }
+
+      /* Wide viewport: float label into the left margin outside the main column */
+      @media (min-width: 1080px) {
+        .group-label {
+          position: absolute;
+          right: 100%;
+          margin: 0 1.5rem 0 0;
+          top: 1.1rem;
+          width: 150px;
+          text-align: right;
+          font-size: 0.88rem;
+          line-height: 1.35;
+        }
+        h3 + .group .group-label {
+          top: 0;
+        }
+        .group-label br { display: inline; }
       }
     </style>
   </head>
@@ -172,122 +197,154 @@
       </p>
 
       <h3>Selected Work</h3>
-      <ul class="item-list">
-        <li>
-          <div>
-            <a class="item-title" href="https://daejunpark.github.io/lean-defi-guide/">DeFi Formal Verification in Lean</a>
-            <a class="chip" href="https://github.com/daejunpark/lean-defi-guide">code</a>
-            <span class="item-meta">2026</span>
-          </div>
-          <p class="item-desc">An exploratory guide to AI-assisted Lean proofs for financial protocols.</p>
-        </li>
-        <li>
-          <div>
-            <a class="item-title" href="https://a16zcrypto.com/posts/article/ai-agents-defi-exploits">Can AI agents actually pull off DeFi exploits?</a>
-            <span class="item-meta">2026</span>
-          </div>
-          <p class="item-desc">Benchmarking AI agents on generating price-manipulation exploits.</p>
-        </li>
-        <li>
-          <div>
-            <a class="item-title" href="https://a16zcrypto.com/posts/article/runtime-enforcement-defense-numerical-exploits">Runtime enforcement: A new line of defense against subtle numerical exploits</a>
-            <span class="item-meta">2025</span>
-          </div>
-          <p class="item-desc">A security perspective on numerical precision and rounding errors in financial systems.</p>
-        </li>
-        <li>
-          <div>
-            <a class="item-title" href="https://a16zcrypto.com/posts/article/formal-verification-of-pectra-system-contracts-with-halmos/">Formal verification of Pectra system contracts with Halmos</a>
-            <a class="chip" href="https://github.com/daejunpark/sys-asm-halmos">code</a>
-            <span class="item-meta">2025</span>
-          </div>
-          <p class="item-desc">Formal verification of Ethereum system contracts written in assembly.</p>
-        </li>
-        <li>
-          <div>
-            <a class="item-title" href="https://a16zcrypto.com/posts/article/symbolic-testing-with-halmos-leveraging-existing-tests-for-formal-verification/">Symbolic testing with Halmos: Leveraging existing tests for formal verification</a>
-            <a class="chip" href="https://github.com/a16z/halmos">code</a>
-            <span class="item-meta">2023</span>
-          </div>
-          <p class="item-desc">Introducing symbolic testing as a bridge from property tests to formal verification.</p>
-        </li>
-        <li>
-          <div>
-            <a class="item-title" href="https://a16zcrypto.com/posts/article/generalized-property-tests-for-erc4626-vaults">Generalized property tests for ERC4626 vaults</a>
-            <a class="chip" href="https://github.com/a16z/erc4626-tests">code</a>
-            <span class="item-meta">2022</span>
-          </div>
-          <p class="item-desc">Executable security properties for tokenized vaults, a standard interface for yield-bearing financial applications.</p>
-        </li>
-      </ul>
+
+      <div class="group">
+        <div class="group-label">AI for Automated<br>Reasoning</div>
+        <ul class="item-list">
+          <li>
+            <div>
+              <a class="item-title" href="https://daejunpark.github.io/lean-defi-guide/">DeFi Formal Verification in Lean</a>
+              <a class="chip" href="https://github.com/daejunpark/lean-defi-guide">code</a>
+              <span class="item-meta">2026</span>
+            </div>
+            <p class="item-desc">An exploratory guide to AI-assisted Lean proofs for financial protocols.</p>
+          </li>
+          <li>
+            <div>
+              <a class="item-title" href="https://a16zcrypto.com/posts/article/ai-agents-defi-exploits">Can AI agents actually pull off DeFi exploits?</a>
+              <span class="item-meta">2026</span>
+            </div>
+            <p class="item-desc">Benchmarking AI agents on generating price-manipulation exploits.</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="group">
+        <div class="group-label">Smart Contract<br>Verification</div>
+        <ul class="item-list">
+          <li>
+            <div>
+              <a class="item-title" href="https://a16zcrypto.com/posts/article/symbolic-testing-with-halmos-leveraging-existing-tests-for-formal-verification/">Symbolic testing with Halmos: Leveraging existing tests for formal verification</a>
+              <a class="chip" href="https://github.com/a16z/halmos">code</a>
+              <span class="item-meta">2023</span>
+            </div>
+            <p class="item-desc">Introducing symbolic testing as a bridge from property tests to formal verification.</p>
+          </li>
+          <li>
+            <div>
+              <a class="item-title" href="https://a16zcrypto.com/posts/article/formal-verification-of-pectra-system-contracts-with-halmos/">Formal verification of Pectra system contracts with Halmos</a>
+              <a class="chip" href="https://github.com/daejunpark/sys-asm-halmos">code</a>
+              <span class="item-meta">2025</span>
+            </div>
+            <p class="item-desc">Formal verification of Ethereum system contracts written in assembly.</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="group">
+        <div class="group-label">Practical Assurance<br>Methods</div>
+        <ul class="item-list">
+          <li>
+            <div>
+              <a class="item-title" href="https://a16zcrypto.com/posts/article/runtime-enforcement-defense-numerical-exploits">Runtime enforcement: A new line of defense against subtle numerical exploits</a>
+              <span class="item-meta">2025</span>
+            </div>
+            <p class="item-desc">A security perspective on numerical precision and rounding errors in financial systems.</p>
+          </li>
+          <li>
+            <div>
+              <a class="item-title" href="https://a16zcrypto.com/posts/article/generalized-property-tests-for-erc4626-vaults">Generalized property tests for ERC4626 vaults</a>
+              <a class="chip" href="https://github.com/a16z/erc4626-tests">code</a>
+              <span class="item-meta">2022</span>
+            </div>
+            <p class="item-desc">Executable security properties for tokenized vaults, a standard interface for yield-bearing financial applications.</p>
+          </li>
+        </ul>
+      </div>
 
       <h3>Earlier Academic Work</h3>
-      <ul class="item-list">
-        <li>
-          <div>
-            <a class="item-title" href="papers/asplos21.pdf">Language-Parametric Compiler Validation with Application to LLVM</a>
-            <span class="item-meta">ASPLOS 2021</span>
-          </div>
-          <p class="item-desc">Introduced Keq, a language-parametric equivalence checker, and used it to validate LLVM instruction selection from LLVM IR to x86-64 MachineIR.</p>
-        </li>
-        <li>
-          <div>
-            <a class="item-title" href="papers/deposit.pdf">End-to-End Formal Verification of Ethereum 2.0 Deposit Smart Contract</a>
-            <a class="chip" href="slides/deposit-slides.pdf">slides</a>
-            <a class="chip" href="https://github.com/runtimeverification/deposit-contract-verification">code</a>
-            <span class="item-meta">CAV Industrial 2020</span>
-          </div>
-          <p class="item-desc">Verified Ethereum's deposit contract down to compiled bytecode, proving the incremental Merkle tree algorithm and finding critical bugs at both the source-code and compiler-output levels.</p>
-        </li>
-        <li>
-          <div>
-            <a class="item-title" href="papers/x86.pdf">A Complete Formal Semantics of x86-64 User-Level Instruction Set Architecture</a>
-            <span class="item-meta">PLDI 2019</span>
-          </div>
-          <p class="item-desc">Built and extensively tested a formal semantics of the user-level x86-64 instruction set, revealing bugs in manuals and existing semantics and enabling binary-level analysis.</p>
-        </li>
-        <li>
-          <div>
-            <a class="item-title" href="papers/kevm-verifier.pdf">A Formal Verification Tool for Ethereum VM Bytecode</a>
-            <a class="chip" href="slides/kevm-verifier-slides.pdf">slides</a>
-            <a class="chip" href="https://github.com/runtimeverification/verified-smart-contracts">code</a>
-            <span class="item-meta">ESEC/FSE Tool 2018</span>
-          </div>
-          <p class="item-desc">Built a deductive verifier for EVM bytecode, with case studies on high-profile smart contracts.</p>
-        </li>
-        <li>
-          <div>
-            <a class="item-title" href="papers/kevm.pdf">KEVM: A Complete Formal Semantics of the Ethereum Virtual Machine</a>
-            <span class="item-meta">CSF 2018</span>
-          </div>
-          <p class="item-desc">Defined executable EVM semantics that passes the official test suite and generates interpreters, debuggers, and verifiers from the same semantics.</p>
-        </li>
-        <li>
-          <div>
-            <a class="item-title" href="https://doi.org/10.1007/978-3-319-89960-2_13">Invariant Synthesis for Incomplete Verification Engines</a>
-            <a class="chip" href="https://github.com/daejunpark/npi">code</a>
-            <span class="item-meta">TACAS 2018</span>
-          </div>
-          <p class="item-desc">Used failed proof attempts to guide CEGIS-style invariant synthesis for quantified and heap-manipulating programs.</p>
-        </li>
-        <li>
-          <div>
-            <a class="item-title" href="papers/oopsla16-preprint.pdf">Semantics-Based Program Verifiers for All Languages</a>
-            <a class="chip" href="slides/oopsla16-slides.pdf">slides</a>
-            <span class="item-meta">OOPSLA 2016, <em>Distinguished Paper</em></span>
-          </div>
-          <p class="item-desc">Generated correct-by-construction verifiers from operational semantics of C, Java, and JavaScript, checking functional correctness of data-structure programs.</p>
-        </li>
-        <li>
-          <div>
-            <a class="item-title" href="papers/p346-park.pdf">KJS: A Complete Formal Semantics of JavaScript</a>
-            <a class="chip" href="slides/2015-06-16-park-stefanescu-rosu-PLDI.pdf">slides</a>
-            <a class="chip" href="https://github.com/kframework/javascript-semantics">code</a>
-            <span class="item-meta">PLDI 2015</span>
-          </div>
-          <p class="item-desc">Built executable JavaScript semantics that passed all core conformance tests, exposed test-suite gaps, and found bugs in JavaScript engines.</p>
-        </li>
-      </ul>
+
+      <div class="group">
+        <div class="group-label">Compilation<br>Verification</div>
+        <ul class="item-list">
+          <li>
+            <div>
+              <a class="item-title" href="papers/asplos21.pdf">Language-Parametric Compiler Validation with Application to LLVM</a>
+              <span class="item-meta">ASPLOS 2021</span>
+            </div>
+            <p class="item-desc">Introduced Keq, a language-parametric equivalence checker, and used it to validate LLVM instruction selection from LLVM IR to x86-64 MachineIR.</p>
+          </li>
+          <li>
+            <div>
+              <a class="item-title" href="papers/x86.pdf">A Complete Formal Semantics of x86-64 User-Level Instruction Set Architecture</a>
+              <span class="item-meta">PLDI 2019</span>
+            </div>
+            <p class="item-desc">Built and extensively tested a formal semantics of the user-level x86-64 instruction set, revealing bugs in manuals and existing semantics and enabling binary-level analysis.</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="group">
+        <div class="group-label">Smart Contract<br>Verification</div>
+        <ul class="item-list">
+          <li>
+            <div>
+              <a class="item-title" href="papers/deposit.pdf">End-to-End Formal Verification of Ethereum 2.0 Deposit Smart Contract</a>
+              <a class="chip" href="slides/deposit-slides.pdf">slides</a>
+              <a class="chip" href="https://github.com/runtimeverification/deposit-contract-verification">code</a>
+              <span class="item-meta">CAV Industrial 2020</span>
+            </div>
+            <p class="item-desc">Verified Ethereum's deposit contract down to compiled bytecode, proving the incremental Merkle tree algorithm and finding critical bugs at both the source-code and compiler-output levels.</p>
+          </li>
+          <li>
+            <div>
+              <a class="item-title" href="papers/kevm-verifier.pdf">A Formal Verification Tool for Ethereum VM Bytecode</a>
+              <a class="chip" href="slides/kevm-verifier-slides.pdf">slides</a>
+              <a class="chip" href="https://github.com/runtimeverification/verified-smart-contracts">code</a>
+              <span class="item-meta">ESEC/FSE Tool 2018</span>
+            </div>
+            <p class="item-desc">Built a deductive verifier for EVM bytecode, with case studies on high-profile smart contracts.</p>
+          </li>
+          <li>
+            <div>
+              <a class="item-title" href="papers/kevm.pdf">KEVM: A Complete Formal Semantics of the Ethereum Virtual Machine</a>
+              <span class="item-meta">CSF 2018</span>
+            </div>
+            <p class="item-desc">Defined executable EVM semantics that passes the official test suite and generates interpreters, debuggers, and verifiers from the same semantics.</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="group">
+        <div class="group-label">Verification<br>Techniques</div>
+        <ul class="item-list">
+          <li>
+            <div>
+              <a class="item-title" href="https://doi.org/10.1007/978-3-319-89960-2_13">Invariant Synthesis for Incomplete Verification Engines</a>
+              <a class="chip" href="https://github.com/daejunpark/npi">code</a>
+              <span class="item-meta">TACAS 2018</span>
+            </div>
+            <p class="item-desc">Used failed proof attempts to guide CEGIS-style invariant synthesis for quantified and heap-manipulating programs.</p>
+          </li>
+          <li>
+            <div>
+              <a class="item-title" href="papers/oopsla16-preprint.pdf">Semantics-Based Program Verifiers for All Languages</a>
+              <a class="chip" href="slides/oopsla16-slides.pdf">slides</a>
+              <span class="item-meta">OOPSLA 2016, <em>Distinguished Paper</em></span>
+            </div>
+            <p class="item-desc">Generated correct-by-construction verifiers from operational semantics of C, Java, and JavaScript, checking functional correctness of data-structure programs.</p>
+          </li>
+          <li>
+            <div>
+              <a class="item-title" href="papers/p346-park.pdf">KJS: A Complete Formal Semantics of JavaScript</a>
+              <a class="chip" href="slides/2015-06-16-park-stefanescu-rosu-PLDI.pdf">slides</a>
+              <a class="chip" href="https://github.com/kframework/javascript-semantics">code</a>
+              <span class="item-meta">PLDI 2015</span>
+            </div>
+            <p class="item-desc">Built executable JavaScript semantics that passed all core conformance tests, exposed test-suite gaps, and found bugs in JavaScript engines.</p>
+          </li>
+        </ul>
+      </div>
     </div>
   </body>
 </html>
