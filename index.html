@@ -77,12 +77,8 @@
         font-size: 1.05rem;
       }
 
-      .group {
-        position: relative;
-      }
-
-      .group + .group {
-        margin-top: 2rem;
+      .group + h3 {
+        margin-top: 3rem;
       }
 
       .item-list {
@@ -94,10 +90,6 @@
       .item-list li {
         border-top: 1px solid var(--border-color);
         padding: 1rem 0;
-      }
-
-      .group .item-list li:first-child {
-        border-top: 1px solid var(--border-color);
       }
 
       h3 + .group .item-list li:first-child {
@@ -138,37 +130,6 @@
         color: var(--primary-color);
         border-bottom-color: currentColor;
       }
-
-      /* Default (narrow viewport) fallback: label sits inline above the group */
-      .group-label {
-        font-size: 0.95rem;
-        font-style: italic;
-        color: var(--muted-color);
-        margin: 1.75rem 0 0.4rem;
-        line-height: 1.4;
-      }
-      h3 + .group .group-label {
-        margin-top: 1rem;
-      }
-      .group-label br { display: none; }
-
-      /* Wide viewport: float label into the left margin outside the main column */
-      @media (min-width: 1080px) {
-        .group-label {
-          position: absolute;
-          right: 100%;
-          margin: 0 1.5rem 0 0;
-          top: 1.1rem;
-          width: 150px;
-          text-align: right;
-          font-size: 0.88rem;
-          line-height: 1.35;
-        }
-        h3 + .group .group-label {
-          top: 0;
-        }
-        .group-label br { display: inline; }
-      }
     </style>
   </head>
   <body>
@@ -196,14 +157,12 @@
         Applied formal verification researcher, focused on practical rigor.
       </p>
 
-      <h3>Selected Work</h3>
-
+      <h3>AI for Automated Reasoning</h3>
       <div class="group">
-        <div class="group-label">AI for Automated <br>Reasoning</div>
         <ul class="item-list">
           <li>
             <div>
-              <a class="item-title" href="https://daejunpark.github.io/lean-defi-guide/">DeFi Formal Verification in Lean</a>
+              <a class="item-title" href="https://daejunpark.github.io/lean-defi-guide/">DeFi formal verification in Lean</a>
               <a class="chip" href="https://github.com/daejunpark/lean-defi-guide">code</a>
               <span class="item-meta">2026</span>
             </div>
@@ -219,8 +178,8 @@
         </ul>
       </div>
 
+      <h3>Smart Contract Verification</h3>
       <div class="group">
-        <div class="group-label">Smart Contract <br>Verification</div>
         <ul class="item-list">
           <li>
             <div>
@@ -238,11 +197,29 @@
             </div>
             <p class="item-desc">Formal verification of Ethereum system contracts written in assembly.</p>
           </li>
+          <li>
+            <div>
+              <a class="item-title" href="papers/deposit.pdf">End-to-end formal verification of Ethereum 2.0 deposit smart contract</a>
+              <a class="chip" href="slides/deposit-slides.pdf">slides</a>
+              <a class="chip" href="https://github.com/runtimeverification/deposit-contract-verification">code</a>
+              <span class="item-meta">CAV Industrial 2020</span>
+            </div>
+            <p class="item-desc">Verified Ethereum's deposit contract down to compiled bytecode, proving the incremental Merkle tree algorithm and finding critical bugs at both the source-code and compiler-output levels.</p>
+          </li>
+          <li>
+            <div>
+              <a class="item-title" href="papers/kevm-verifier.pdf">A formal verification tool for Ethereum VM bytecode</a>
+              <a class="chip" href="slides/kevm-verifier-slides.pdf">slides</a>
+              <a class="chip" href="https://github.com/runtimeverification/verified-smart-contracts">code</a>
+              <span class="item-meta">ESEC/FSE Tool 2018</span>
+            </div>
+            <p class="item-desc">Built a deductive verifier for EVM bytecode, with case studies on high-profile smart contracts.</p>
+          </li>
         </ul>
       </div>
 
+      <h3>Practical Assurance Methods</h3>
       <div class="group">
-        <div class="group-label">Practical Assurance <br>Methods</div>
         <ul class="item-list">
           <li>
             <div>
@@ -262,65 +239,48 @@
         </ul>
       </div>
 
-      <h3>Earlier Academic Work</h3>
-
+      <h3>Executable Formal Semantics</h3>
       <div class="group">
-        <div class="group-label">Compilation <br>Verification</div>
         <ul class="item-list">
           <li>
             <div>
-              <a class="item-title" href="papers/asplos21.pdf">Language-Parametric Compiler Validation with Application to LLVM</a>
+              <a class="item-title" href="papers/x86.pdf">A complete formal semantics of x86-64 user-level instruction set architecture</a>
+              <span class="item-meta">PLDI 2019</span>
+            </div>
+            <p class="item-desc">Built and extensively tested a formal semantics of the user-level x86-64 instruction set, revealing bugs in manuals and existing semantics and enabling binary-level analysis.</p>
+          </li>
+          <li>
+            <div>
+              <a class="item-title" href="papers/kevm.pdf">KEVM: A complete formal semantics of the Ethereum Virtual Machine</a>
+              <span class="item-meta">CSF 2018</span>
+            </div>
+            <p class="item-desc">Defined executable EVM semantics that passes the official test suite and generates interpreters, debuggers, and verifiers from the same semantics.</p>
+          </li>
+          <li>
+            <div>
+              <a class="item-title" href="papers/p346-park.pdf">KJS: A complete formal semantics of JavaScript</a>
+              <a class="chip" href="slides/2015-06-16-park-stefanescu-rosu-PLDI.pdf">slides</a>
+              <a class="chip" href="https://github.com/kframework/javascript-semantics">code</a>
+              <span class="item-meta">PLDI 2015</span>
+            </div>
+            <p class="item-desc">Built executable JavaScript semantics that passed all core conformance tests, exposed test-suite gaps, and found bugs in JavaScript engines.</p>
+          </li>
+        </ul>
+      </div>
+
+      <h3>Verification Techniques</h3>
+      <div class="group">
+        <ul class="item-list">
+          <li>
+            <div>
+              <a class="item-title" href="papers/asplos21.pdf">Language-parametric compiler validation with application to LLVM</a>
               <span class="item-meta">ASPLOS 2021</span>
             </div>
             <p class="item-desc">Introduced Keq, a language-parametric equivalence checker, and used it to validate LLVM instruction selection from LLVM IR to x86-64 MachineIR.</p>
           </li>
           <li>
             <div>
-              <a class="item-title" href="papers/x86.pdf">A Complete Formal Semantics of x86-64 User-Level Instruction Set Architecture</a>
-              <span class="item-meta">PLDI 2019</span>
-            </div>
-            <p class="item-desc">Built and extensively tested a formal semantics of the user-level x86-64 instruction set, revealing bugs in manuals and existing semantics and enabling binary-level analysis.</p>
-          </li>
-        </ul>
-      </div>
-
-      <div class="group">
-        <div class="group-label">Smart Contract <br>Verification</div>
-        <ul class="item-list">
-          <li>
-            <div>
-              <a class="item-title" href="papers/deposit.pdf">End-to-End Formal Verification of Ethereum 2.0 Deposit Smart Contract</a>
-              <a class="chip" href="slides/deposit-slides.pdf">slides</a>
-              <a class="chip" href="https://github.com/runtimeverification/deposit-contract-verification">code</a>
-              <span class="item-meta">CAV Industrial 2020</span>
-            </div>
-            <p class="item-desc">Verified Ethereum's deposit contract down to compiled bytecode, proving the incremental Merkle tree algorithm and finding critical bugs at both the source-code and compiler-output levels.</p>
-          </li>
-          <li>
-            <div>
-              <a class="item-title" href="papers/kevm-verifier.pdf">A Formal Verification Tool for Ethereum VM Bytecode</a>
-              <a class="chip" href="slides/kevm-verifier-slides.pdf">slides</a>
-              <a class="chip" href="https://github.com/runtimeverification/verified-smart-contracts">code</a>
-              <span class="item-meta">ESEC/FSE Tool 2018</span>
-            </div>
-            <p class="item-desc">Built a deductive verifier for EVM bytecode, with case studies on high-profile smart contracts.</p>
-          </li>
-          <li>
-            <div>
-              <a class="item-title" href="papers/kevm.pdf">KEVM: A Complete Formal Semantics of the Ethereum Virtual Machine</a>
-              <span class="item-meta">CSF 2018</span>
-            </div>
-            <p class="item-desc">Defined executable EVM semantics that passes the official test suite and generates interpreters, debuggers, and verifiers from the same semantics.</p>
-          </li>
-        </ul>
-      </div>
-
-      <div class="group">
-        <div class="group-label">Verification <br>Techniques</div>
-        <ul class="item-list">
-          <li>
-            <div>
-              <a class="item-title" href="https://doi.org/10.1007/978-3-319-89960-2_13">Invariant Synthesis for Incomplete Verification Engines</a>
+              <a class="item-title" href="https://doi.org/10.1007/978-3-319-89960-2_13">Invariant synthesis for incomplete verification engines</a>
               <a class="chip" href="https://github.com/daejunpark/npi">code</a>
               <span class="item-meta">TACAS 2018</span>
             </div>
@@ -328,20 +288,11 @@
           </li>
           <li>
             <div>
-              <a class="item-title" href="papers/oopsla16-preprint.pdf">Semantics-Based Program Verifiers for All Languages</a>
+              <a class="item-title" href="papers/oopsla16-preprint.pdf">Semantics-based program verifiers for all languages</a>
               <a class="chip" href="slides/oopsla16-slides.pdf">slides</a>
               <span class="item-meta">OOPSLA 2016, <em>Distinguished Paper</em></span>
             </div>
             <p class="item-desc">Generated correct-by-construction verifiers from operational semantics of C, Java, and JavaScript, checking functional correctness of data-structure programs.</p>
-          </li>
-          <li>
-            <div>
-              <a class="item-title" href="papers/p346-park.pdf">KJS: A Complete Formal Semantics of JavaScript</a>
-              <a class="chip" href="slides/2015-06-16-park-stefanescu-rosu-PLDI.pdf">slides</a>
-              <a class="chip" href="https://github.com/kframework/javascript-semantics">code</a>
-              <span class="item-meta">PLDI 2015</span>
-            </div>
-            <p class="item-desc">Built executable JavaScript semantics that passed all core conformance tests, exposed test-suite gaps, and found bugs in JavaScript engines.</p>
           </li>
         </ul>
       </div>
