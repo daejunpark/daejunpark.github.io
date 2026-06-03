@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Considerations When Integrating ERC-4626 Vaults</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --primary-color: #1a1a1a;
+        --secondary-color: #555;
+        --muted-color: #8c8c8c;
+        --border-color: #ededed;
+        --background-color: #ffffff;
+      }
+
+      body {
+        font-family: 'Source Serif 4', Charter, 'Iowan Old Style', Georgia, serif;
+        line-height: 1.72;
+        max-width: 760px;
+        margin: 0 auto;
+        padding: clamp(1.25rem, 4vw, 2.75rem);
+        background: var(--background-color);
+        color: var(--primary-color);
+        font-size: 18px;
+      }
+
+      a {
+        color: var(--primary-color);
+        text-decoration: none;
+        border-bottom: 1px solid #b8b8b8;
+        transition: border-color 0.15s ease;
+      }
+
+      a:hover {
+        border-bottom-color: var(--primary-color);
+      }
+
+      .site-link {
+        display: inline-block;
+        margin-bottom: 2.2rem;
+        color: var(--secondary-color);
+        font-size: 0.86rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1, h2, h3 {
+        color: var(--primary-color);
+      }
+
+      h1 {
+        font-size: clamp(2rem, 5vw, 3rem);
+        font-weight: 600;
+        line-height: 1.12;
+        letter-spacing: -0.01em;
+        margin: 0;
+      }
+
+      .subtitle {
+        color: var(--secondary-color);
+        font-size: 1.18rem;
+        line-height: 1.55;
+        margin: 1rem 0 0;
+      }
+
+      .meta {
+        color: var(--muted-color);
+        font-size: 0.9rem;
+        font-style: italic;
+        margin: 1.1rem 0 2.4rem;
+      }
+
+      .lead {
+        font-size: 1.08rem;
+      }
+
+      h2 {
+        font-size: 1.18rem;
+        font-weight: 600;
+        margin: 2.45rem 0 0.65rem;
+      }
+
+      h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        margin: 1.9rem 0 0.45rem;
+      }
+
+      p {
+        margin: 1rem 0;
+      }
+
+      ul {
+        margin: 0.9rem 0 1.25rem 1.35rem;
+        padding: 0;
+      }
+
+      li {
+        margin: 0.45rem 0;
+        padding-left: 0.1rem;
+      }
+
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.88em;
+        background: #f6f6f6;
+        border-radius: 3px;
+        padding: 0.05rem 0.22rem;
+      }
+
+      a code {
+        color: inherit;
+      }
+
+      .section-break {
+        border: 0;
+        width: 7rem;
+        height: 1px;
+        margin: 2.6rem 0;
+        background: #b8b8b8;
+      }
+
+      @media (max-width: 560px) {
+        body {
+          font-size: 17px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <article>
+      <a class="site-link" href="../index.html">Daejun Park</a>
+
+      <h1>Security Considerations When Integrating ERC-4626 Vaults</h1>
+      <p class="subtitle">Practical guidance for app developers integrating tokenized vaults, using Morpho Vaults as a case study</p>
+      <p class="meta">May 5, 2025</p>
+
+      <p class="lead">If you’re building an app that accepts user deposits and generates yield, you’ll likely consider integrating one or more yield-generating vaults. Fortunately, many modern vaults adhere to the <a href="https://eips.ethereum.org/EIPS/eip-4626">ERC-4626</a> standard, which greatly simplifies the integration process. Thanks to this unified interface, supporting multiple vaults — or adding new ones later — becomes significantly easier in terms of both implementation and maintenance.</p>
+
+      <p>However, despite the shared interface, vaults can behave differently under the hood. Each has its own accounting logic and yield strategy, and the ERC-4626 standard allows for a fair degree of flexibility in implementation. The standard defines only minimal required behaviors, leaving many details up to individual vault developers.</p>
+
+      <p>This means that you need a solid understanding of a vault’s behavior to build secure and reliable integrations. If preserving users’ principal is a high priority, it is especially important to understand how vaults handle losses and temporary withdrawal unavailability, so that users can withdraw funds reliably and avoid unexpected losses.</p>
+
+      <p>In this post, we’ll explore some of the behavioral differences between different ERC-4626 vault implementations using <a href="https://app.morpho.org/vaults">Morpho Vaults</a> as a case study. Morpho Vaults is one of the widely used ERC-4626 vault implementations and offers valuable insight into the nuances and trade-offs developers may encounter.</p>
+
+      <h2>ERC-4626 vault basics</h2>
+
+      <p>At a high level, users deposit assets into a vault, and receive a tokenized deposit receipt that entitles them to their portion of the vault&#x27;s assets. They can withdraw assets in exchange for these deposit receipts, even shortly after depositing. Where vaults are designed to accumulate value, if the vault grows its assets over time, the depositor’s portion becomes more valuable. Of course, like with any investment, there’s always a chance of losses too.</p>
+
+      <p>Vaults generate yield using a variety of decentralized and autonomous mechanisms that are not controlled by any person, including DEXs like Uniswap or Curve (via swap or staking fees) and lending protocols like Aave or Morpho (via borrower interest payments). Vaults autonomously deposit user funds into these protocols as liquidity providers (LPs) or lenders, then use the proceeds to increase the value of users’ ownership of the vault.</p>
+
+      <p>Morpho Vaults, for instance, use Morpho’s lending markets as their underlying yield source. These vaults serve as ERC-4626-compliant wrappers around those lending protocols.</p>
+
+      <h2>Principal risk and accounting behavior</h2>
+
+      <p>A key consideration when integrating vaults is understanding how they handle <a href="https://docs.morpho.org/curate/tutorials-v1/bad-debt/">losses</a> from their underlying yield sources. This is especially important when preserving principal is a high priority.</p>
+
+      <p>Some types of yield sources, like lending markets, are generally not expected to incur losses, except during extreme market volatility or price manipulation schemes. When losses do happen, different vault implementations show them in different ways.</p>
+
+      <p>Morpho Vaults v1 and v1.1 show different behaviors in how they surface losses, reflecting patterns seen in many other production vaults. Below, we’ll use these two versions as a lens for understanding different vault behaviors and the trade-offs involved in different design choices. We’ll also outline recommended practices for dealing with each type of behavior safely and reliably.</p>
+
+      <h3>Morpho Vault v1: Immediate loss realization</h3>
+
+      <p>In version 1, the price of an ownership stake in a vault immediately reflects losses in the underlying yield source. For example, if a bad debt event occurs—typically due to a sharp drop in borrower collateral value—the price drops accordingly.</p>
+
+      <p>These losses may result from volatile long-tail assets or compromised oracle prices. While some are temporary, users who withdraw during this time will realize their losses.</p>
+
+      <p>To protect against this, integrations should implement safeguards, such as slippage protection, to prevent withdrawals below a minimum expected value. A common pattern is to require users to specify minimum acceptable withdrawal proceeds, effectively setting a minimum price they are willing to accept—similar to placing a limit order. If the actual amount falls below this threshold, the transaction is reverted.</p>
+
+      <p>However, your app should offer both protected and unprotected order mechanisms, allowing the user to express their intent accordingly. In some scenarios, such as market-wide failure, users may prefer to withdraw immediately so they can quickly exit and avoid further losses. For example, allowing users to set a minimum withdrawal threshold of zero gives users full control over whether to proceed, even if they’re accepting a potential loss.</p>
+
+      <h3>Morpho Vault v1.1: Unrealized losses</h3>
+
+      <p>In contrast, version 1.1—like most lending pools, including Aave—does not reflect losses in the price of an ownership stake in a vault. Even if the vault’s assets decline, the price remains the same. While this design protects users from short-term oracle manipulation, it introduces the risk of uneven loss distribution, where early withdrawers may receive full value, while late withdrawers could receive significantly less—or even nothing—if the vault becomes undercollateralized. This can lead to bank runs when users realize the vault’s nominal unit value is not backed by actual assets.</p>
+
+      <p>To mitigate this, vault owners are expected to cover bad debt using external funds. However, this recovery often happens off-chain and can take time, leaving the vault undercollateralized in the meantime.</p>
+
+      <p>To safely integrate with v1.1 vaults, your app should detect whether such losses have occurred and whether they have been covered by the vault owners:</p>
+
+      <ul>
+
+        <li>Use <code>lostAssets()</code> (available only in v1.1) to detect historical losses.</li>
+
+        <li>Check the balance of <code>address(1)</code>, which is used by vault operators to “donate” assets and cover losses. If its balance exceeds <code>lostAssets()</code>, the vault is fully backed.</li>
+
+      </ul>
+
+      <p>If the vault hasn’t recovered the losses, consider implementing emergency measures to protect users from potential bank run scenarios.</p>
+
+      <h2>Temporary withdrawal limitations (without losses)</h2>
+
+      <p>Even without losses, withdrawals may be <a href="https://docs.morpho.org/learn/resources/risks/#liquidity-risk-for-lenders">temporarily unavailable</a>, especially when the vault uses a lending protocol as its yield source.</p>
+
+      <p>Unlike DEX-based vaults, lending-based vaults can only allow withdrawals up to the liquidity currently available in the lending pool. If most capital is borrowed, users will have to wait for loan repayments before they can withdraw.</p>
+
+      <p>This limitation is not a bug, but built into lending-based vaults by design—similar to fractional reserve banking. Although vault operators often maintain buffer liquidity, users making larger withdrawals may still experience a delay. This constraint applies to both v1 and v1.1 of Morpho Vaults.</p>
+
+      <p>Integrations should account for this, particularly in scenarios like vault migrations that require full fund withdrawal. If liquidity is low at the time of migration, a full withdrawal may fail, and your app may only be able to withdraw some of the amount. In these cases, the migration process may need to happen in multiple steps over time, rather than as a single transaction. To handle this, design your migration logic to support multi-step withdrawals and retries over time.</p>
+
+      <h2>Interface-level considerations</h2>
+
+      <p>Based on the behaviors outlined above, here are key considerations when using ERC-4626 interface functions with Morpho Vaults:</p>
+
+      <h3>Convert Functions</h3>
+
+      <p>These functions reflect the spot price of vault ownership.</p>
+
+      <ul>
+
+        <li>In v1, vault prices can decrease due to losses, so apps must be able to handle this volatility by implementing slippage protection or validating price assumptions before executing transactions.</li>
+
+        <li>In v1.1, vault prices are monotonic and do not decrease (except for rounding errors), but they may not reflect true asset values. Apps should account for this by independently verifying the vault’s backing—using checks like <code>lostAssets()</code>—rather than relying solely on vault price as an indicator of value.</li>
+
+      </ul>
+
+      <p>Watch for potential price inflation attacks, especially in low-liquidity vaults where prices can spike artificially — in particular when integrating with new or thinly capitalized vaults. The issue is well-studied, with several proposed mitigations, including by <a href="https://docs.openzeppelin.com/contracts/5.x/erc4626#inflation-attack">OpenZeppelin</a> and <a href="https://docs.morpho.org/curate/concepts/security-considerations/#inflation-front-running-attack-protection">Morpho</a>. One effective approach is initializing the vault with a small seed deposit that remains permanently locked. This helps stabilize the initial vault price and prevents price manipulation in low-liquidity scenarios.</p>
+
+      <h3>Preview functions</h3>
+
+      <p>Use preview functions strictly for estimation—not for execution. These functions estimate the result of a deposit or withdrawal but do not guarantee success.</p>
+
+      <p>For example, <code>previewRedeem(balanceOf(user))</code> gives a theoretical value, but <code>redeem(balanceOf(user))</code> could still fail due to rounding or insufficient liquidity.</p>
+
+      <h3>Max functions</h3>
+
+      <p>These functions indicate the maximum transaction size that can be executed at a given time.</p>
+
+      <ul>
+
+        <li>Deposit limits are constrained by the caps of the underlying Morpho markets.</li>
+
+        <li>Withdrawal limits depend on current liquidity.</li>
+
+      </ul>
+
+      <p>These simulate actual transaction logic and are generally accurate, except for rounding. Behavior is consistent across both v1 and v1.1.</p>
+
+      <p>For example, due to these limitations, <code>maxRedeem(user)</code> and <code>maxWithdraw(user)</code> may be significantly less than <code>balanceOf(user)</code> and <code>previewRedeem(balanceOf(user))</code>, respectively.</p>
+
+      <p>Use preview functions to estimate values, and max functions to determine whether an action is currently feasible.</p>
+
+      <h3>Deposit and withdraw functions</h3>
+
+      <p>When executing transactions, account for potential changes in vault price between submission and execution, as price shifts can expose users to unintended losses. To mitigate that risk, implement slippage protection using min/max thresholds, and revert transactions if the resulting values fall outside these bounds.</p>
+
+      <p>While vault prices in v1.1 do not decrease, apps that support both versions — or other vaults — should adopt conservative safeguards. Libraries such as Morpho’s <a href="https://github.com/morpho-org/morpho-blue-bundlers/blob/v1.2.0/src/ERC4626Bundler.sol"><code>ERC4626Bundler</code></a> offer this protection out of the box.</p>
+
+      <h3>Rounding errors</h3>
+
+      <p>Rounding errors are inevitable across all ERC-4626 interface functions, as they involve computing vault prices. The magnitude and direction of these errors can vary between functions and vault implementations, and it’s important to understand these subtle details. This post does not cover rounding behavior in depth, as this is already well-studied within the ERC-4626 context. For a deeper exploration, refer to the <a href="https://eips.ethereum.org/EIPS/eip-4626">ERC-4626 standard</a> and associated <a href="https://a16zcrypto.com/posts/article/generalized-property-tests-for-erc4626-vaults/">property-based tests</a>.</p>
+
+      <h2>Additional edge cases</h2>
+
+      <p>There are other edge cases we haven’t covered here. For example, in v1.1, <code>lostAssets()</code> may still return zero even when bad debt exists but hasn’t been acknowledged. In such cases, the vault may appear healthy when it is not. Detecting these cases may require simulating the Morpho market’s internal accounting logic.</p>
+
+      <p>Depending on your app’s risk tolerance, these subtleties could be crucial. Consulting vault documentation and resources — such as the <a href="https://docs.morpho.org/learn/resources/risks/">Morpho docs</a> or <a href="https://github.com/morpho-org/metamorpho-v1.1/tree/main/audits">audit reports</a> — might help clarify these behaviors.</p>
+
+      <hr class="section-break">
+
+      <p>Always design your integration logic with an understanding of how vaults handle losses, liquidity constraints, and price volatility. As ERC-4626 vaults become a foundational part of the DeFi stack, this knowledge is essential for building secure, reliable applications.</p>
+    </article>
+  </body>
+</html>
